@@ -157,7 +157,7 @@ body { font-family: Arial, sans-serif; background: #ece9f7; min-height: 100vh; }
 
 <script>
 const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdJP64hRBTUsDh6Gvg7RSrZl3wkBg9lZurfp5iUDJi9jd2jUA/viewform?embedded=true';
-const APPS_SCRIPT_URL = 'REPLACE_WITH_APPS_SCRIPT_URL';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzIcC9wSyWP2mqX8v2IFpjEq82kmgT2ol8b9MVCH9XOXELNkHeyJq1aTkm-WWXNwU0Kdg/exec';
 const TOTAL = 35 * 60;
 
 let startTime = null;
@@ -196,14 +196,14 @@ function lockForm() {
 }
 
 function logStart() {
-  if (APPS_SCRIPT_URL === 'REPLACE_WITH_APPS_SCRIPT_URL') return;
+  if (APPS_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbzIcC9wSyWP2mqX8v2IFpjEq82kmgT2ol8b9MVCH9XOXELNkHeyJq1aTkm-WWXNwU0Kdg/exec') return;
   const sid = Date.now().toString();
   sessionStorage.setItem('sid', sid);
   fetch(APPS_SCRIPT_URL + '?action=start&sid=' + sid + '&t=' + encodeURIComponent(startTime.toLocaleString('vi-VN')), { mode: 'no-cors' }).catch(() => {});
 }
 
 function logEnd() {
-  if (APPS_SCRIPT_URL === 'REPLACE_WITH_APPS_SCRIPT_URL') return;
+  if (APPS_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbzIcC9wSyWP2mqX8v2IFpjEq82kmgT2ol8b9MVCH9XOXELNkHeyJq1aTkm-WWXNwU0Kdg/exec') return;
   const endTime = new Date();
   const elapsed = Math.floor((endTime - startTime) / 1000);
   const sid = sessionStorage.getItem('sid') || '';
