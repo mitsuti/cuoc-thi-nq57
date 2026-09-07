@@ -158,7 +158,7 @@
     <div class="luuy">
       <b>Lưu ý trước khi thi:</b><br>
       • Bài thi gồm phần thông tin cá nhân và <b>50 câu trắc nghiệm</b>.<br>
-      • Thời gian làm bài là <b>35 phút</b>, tính từ lúc bấm nút bên dưới.<br>
+      • Tổng thời gian là <b>35 phút</b>: khoảng <b>5 phút</b> điền thông tin cá nhân và <b>30 phút</b> làm 50 câu trắc nghiệm — tính từ lúc bấm nút bên dưới.<br>
       • Đồng hồ <b>không dừng lại</b> kể cả khi bạn tải lại trang, vì vậy hãy làm bài liên tục.<br>
       • Ô <b>"Thời gian bắt đầu"</b> trong biểu mẫu do hệ thống tự điền, <b>vui lòng không chỉnh sửa</b>.<br>
       • Hết 35 phút, biểu mẫu sẽ bị khóa. Hãy bấm <b>Gửi</b> trước khi hết giờ.
@@ -260,9 +260,6 @@
 
   // ====== BẮT ĐẦU THI ======
   nutBatDau.addEventListener("click", function(){
-    var ok = confirm("Khi bấm Đồng ý, đồng hồ 35 phút sẽ bắt đầu chạy và KHÔNG thể dừng lại.\nBạn đã sẵn sàng làm bài chưa?");
-    if (!ok){ return; }
-
     var now = Date.now();
     var chuoiGio = dinhDangGioBatDau(new Date(now));
     localStorage.setItem(KEY_TS, String(now));
