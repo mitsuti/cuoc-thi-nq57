@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuộc thi tìm hiểu NQ57 - Xã Chí Minh</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #ece9f7; min-height: 100vh; }
+
+/* ===== TRANG INTRO ===== */
+#page-intro {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 40px 16px;
+}
+
+.intro-card {
+  background: #fff;
+  border-radius: 8px;
+  max-width: 680px; width: 100%;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+.intro-header {
+  background: #6c5fc7;
+  padding: 28px 32px;
+  text-align: center;
+}
+.intro-header h1 {
+  color: #fff;
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+}
+
+.intro-body {
+  padding: 32px;
+}
+.intro-body p {
+  color: #444;
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.intro-body ul {
+  margin: 8px 0 20px 20px;
+  color: #444;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.btn-start {
+  display: block; width: 100%;
+  padding: 14px;
+  background: #6c5fc7;
+  color: #fff;
+  border: none; border-radius: 6px;
+  font-size: 16px; font-weight: bold;
+  cursor: pointer;
+  margin-top: 24px;
+  letter-spacing: 0.5px;
+  transition: background 0.2s;
+}
+.btn-start:hover { background: #5849b5; }
+
+.note {
+  color: #e53935;
+  font-size: 13px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+/* ===== TRANG THI ===== */
+#page-exam { display: none; }
+
+#timer-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+  background: #6c5fc7; color: #fff;
+  padding: 10px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+#timer-label { font-size: 14px; opacity: 0.9; }
+#timer-display { font-size: 26px; font-weight: bold; letter-spacing: 3px; }
+#timer-display.danger { color: #ffcccc; animation: blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+#form-wrapper {
+  margin-top: 52px;
+  width: 100%; height: calc(100vh - 52px);
+}
+#gform { width: 100%; height: 100%; border: none; }
+
+/* ===== OVERLAY HẾT GIỜ ===== */
+#overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 99999;
+  background: rgba(0,0,0,0.7);
+  justify-content: center; align-items: center;
+}
+#overlay.show { display: flex; }
+.overlay-box {
+  background: #fff; border-radius: 10px;
+  padding: 40px 32px; text-align: center; max-width: 360px; width: 90%;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.overlay-box .icon { font-size: 48px; margin-bottom: 12px; }
+.overlay-box h2 { color: #6c5fc7; font-size: 22px; margin-bottom: 10px; }
+.overlay-box p { color: #555; line-height: 1.6; font-size: 15px; }
+</style>
+</head>
+<body>
+
+<!-- TRANG INTRO -->
+<div id="page-intro">
+  <div class="intro-card">
+    <div class="intro-header">
+      <h1>CUỘC THI TÌM HIỂU VỀ NGHỊ QUYẾT 57<br>PHÁT TRIỂN KHOA HỌC CÔNG NGHỆ, ĐỔI MỚI SÁNG TẠO,<br>CHUYỂN ĐỔI SỐ VÀ ĐỀ ÁN 06 NĂM 2026<br>TRÊN ĐỊA BÀN XÃ CHÍ MINH</h1>
+    </div>
+    <div class="intro-body">
+      <p>Chào mừng bạn đến với cuộc thi trực tuyến. Vui lòng đọc kỹ thể lệ trước khi bắt đầu:</p>
+      <ul>
+        <li>Bài thi gồm <strong>50 câu trắc nghiệm</strong>, mỗi câu 4 đáp án.</li>
+        <li>Thời gian làm bài: <strong>35 phút</strong> (bao gồm điền thông tin).</li>
+        <li>Đồng hồ bắt đầu ngay khi bạn nhấn <strong>"Bắt đầu thi"</strong>.</li>
+        <li>Hết giờ, bài thi sẽ tự động bị khóa.</li>
+        <li>Mỗi người chỉ tham gia <strong>một lần</strong>.</li>
+      </ul>
+      <button class="btn-start" onclick="startExam()">BẮT ĐẦU THI</button>
+      <p class="note">⚠ Sau khi nhấn bắt đầu, đồng hồ sẽ chạy và không thể dừng lại!</p>
+    </div>
+  </div>
+</div>
+
+<!-- TRANG THI -->
+<div id="page-exam">
+  <div id="timer-bar">
+    <div id="timer-label">⏱ Thời gian còn lại</div>
+    <div id="timer-display">35:00</div>
+  </div>
+  <div id="form-wrapper">
+    <iframe id="gform" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- OVERLAY HẾT GIỜ -->
+<div id="overlay">
+  <div class="overlay-box">
+    <div class="icon">⏰</div>
+    <h2>Hết thời gian!</h2>
+    <p>Thời gian làm bài đã kết thúc.<br>Cảm ơn bạn đã tham gia cuộc thi!</p>
+  </div>
+</div>
+
+<script>
+const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdJP64hRBTUsDh6Gvg7RSrZl3wkBg9lZurfp5iUDJi9jd2jUA/viewform?embedded=true';
+const APPS_SCRIPT_URL = 'REPLACE_WITH_APPS_SCRIPT_URL';
+const TOTAL = 35 * 60;
+
+let startTime = null;
+let timerInterval = null;
+
+function startExam() {
+  startTime = new Date();
+  document.getElementById('page-intro').style.display = 'none';
+  document.getElementById('page-exam').style.display = 'block';
+  document.getElementById('gform').src = FORM_URL;
+
+  logStart();
+
+  let remaining = TOTAL;
+  const display = document.getElementById('timer-display');
+
+  timerInterval = setInterval(() => {
+    remaining--;
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    display.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    if (remaining <= 300) display.classList.add('danger');
+    if (remaining <= 0) {
+      clearInterval(timerInterval);
+      lockForm();
+    }
+  }, 1000);
+}
+
+function lockForm() {
+  document.getElementById('overlay').classList.add('show');
+  const iframe = document.getElementById('gform');
+  iframe.style.pointerEvents = 'none';
+  iframe.style.opacity = '0.3';
+  logEnd();
+}
+
+function logStart() {
+  if (APPS_SCRIPT_URL === 'REPLACE_WITH_APPS_SCRIPT_URL') return;
+  const sid = Date.now().toString();
+  sessionStorage.setItem('sid', sid);
+  fetch(APPS_SCRIPT_URL + '?action=start&sid=' + sid + '&t=' + encodeURIComponent(startTime.toLocaleString('vi-VN')), { mode: 'no-cors' }).catch(() => {});
+}
+
+function logEnd() {
+  if (APPS_SCRIPT_URL === 'REPLACE_WITH_APPS_SCRIPT_URL') return;
+  const endTime = new Date();
+  const elapsed = Math.floor((endTime - startTime) / 1000);
+  const sid = sessionStorage.getItem('sid') || '';
+  fetch(APPS_SCRIPT_URL + '?action=end&sid=' + sid + '&elapsed=' + elapsed + '&t=' + encodeURIComponent(endTime.toLocaleString('vi-VN')), { mode: 'no-cors' }).catch(() => {});
+}
+</script>
+</body>
+</html>
